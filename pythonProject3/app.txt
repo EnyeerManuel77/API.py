@@ -1,0 +1,27 @@
+from flaskr import create_app
+from .modelos import Cancion, db
+from .modelos import Album, db
+from .modelos import Usuario, db
+
+app = create_app('default')
+app_context = app.app_context()
+app_context.push()
+
+db.init_app(app)
+db.create_all()
+
+with app.app_context():
+    c = Cancion(titulo='La Gloria', minutos=2, segundos=25, interprete='Michael Jackson')
+    db.session.add(c)
+    db.session.commit()
+    print(Cancion.query.all())
+
+    a = Album(titulo='El Mejor', ano='1992', descripcion='POP', medio='DISCO')
+    db.session.add(a)
+    db.session.commit()
+    print(Album.query.all())
+
+    u = Usuario(nombre='Jhoan', contrasena='321')
+    db.session.add(u)
+    db.session.commit()
+    print(Usuario.query.all())
